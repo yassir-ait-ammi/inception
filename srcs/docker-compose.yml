@@ -2,6 +2,7 @@
 services:
   mariadb:
     build: ./requirements/mariadb
+    image: mariadb
     container_name: inception-mariadb
     env_file:
       - .env
@@ -13,6 +14,7 @@ services:
 
   wordpress:
     build: ./requirements/wordpress
+    image: wordpress
     container_name: inception-wordpress
     env_file:
       - .env
@@ -26,13 +28,13 @@ services:
 
   nginx:
     build: ./requirements/nginx
+    image: nginx
     container_name: inception-nginx
     env_file:
       - .env
     depends_on:
       - wordpress
     ports:
-      - "80:80"
       - "443:443"
     volumes:
       - wp-files:/var/www/wordpress

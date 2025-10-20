@@ -1,16 +1,13 @@
 #!/bin/bash
 cd /var/www/wordpress
 
-# Download WordPress
 wp core download --allow-root > /dev/null 2>&1
 
-# Wait for MariaDB to be ready
 until mariadb -h mariadb -u $DB_USER_NAME -p"$DB_USER_PASSWORD" -e "SELECT 1" > /dev/null 2>&1; do
     echo "Waiting for MariaDB..."
     sleep 1
 done
 
-# Configure WordPress
 wp config create \
     --dbname="$DB_NAME" \
     --dbuser="$DB_USER_NAME" \
@@ -31,5 +28,4 @@ wp user create "$WP_USER_NAME" $WP_USER_EMAIL \
     --role="editor" \
     --allow-root > /dev/null 2>&1
 
-# Start PHP-FPM
 exec php-fpm8.2 --nodaemonize
