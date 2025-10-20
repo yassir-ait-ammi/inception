@@ -12,8 +12,13 @@ down:
 	sudo docker-compose -f $(COMPOSE) -p $(NAME) down
 
 clean: down
-	sudo docker volume rm $$(docker volume ls) 2> /dev/null || true
+	sudo docker volume rm $$(sudo docker volume ls -q) 2> /dev/null || true
 	sudo rm -rf $(DB_VOLUME) $(WP_VOLUME)
 
 fclean: clean
-	@docker rmi -f $$(docker images -qa) 2> /dev/null || true
+	sudo docker rmi -f $$(sudo docker images -qa) 2> /dev/null || true
+	sudo docker system prune -af --volumes
+
+re: fclean up
+
+.PHONY: up down clean fclean re
