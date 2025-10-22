@@ -20,6 +20,7 @@ services:
       - .env
     depends_on:
       - mariadb
+      - redis
     volumes:
       - wp-files:/var/www/wordpress
     networks:
@@ -42,10 +43,76 @@ services:
       - inception-network
     restart: unless-stopped
 
+  redis:
+    build: ./requirements/bonus/redis
+    image: redis
+    container_name: inception-redis
+    volumes:
+      - rd-data:/data
+    ports:
+      - "6379"
+    networks:
+      - inception-network
+    restart: unless-stopped
+
+  ftp:
+    build: ./requirements/bonus/ftp
+    image: ftp
+    container_name: inception-ftp
+    depends_on:
+      - wordpress
+    ports:
+      - "21:21"
+      - "21100-21110:21100-21110"
+    env_file:
+      - .env
+    volumes:
+      - wp-files:/var/www/wordpress
+    networks:
+      - inception-network
+    restart: unless-stopped
+
+  adminer:
+    build: ./requirements/bonus/adminer
+    image: adminer
+    container_name: inception-adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+    networks:
+      - inception-network
+
+  static_file:
+    build: ./requirements/bonus/static_file
+    image: static_file
+    container_name: inception-static_file
+    ports:
+      - "122:80"
+    networks:
+      - inception-network
+    restart: unless-stopped
+
+  portainer:
+    build: ./requirements/bonus/portainer
+    container_name: inception-portainer
+    restart: always
+    ports:
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - inception-network
+
+
+
 volumes:
   db-data:
     driver: local
   wp-files:
+    driver: local
+  rd-data:
     driver: local
 
 networks:

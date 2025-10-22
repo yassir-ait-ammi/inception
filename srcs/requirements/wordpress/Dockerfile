@@ -11,4 +11,6 @@ RUN sed -i 's/listen = .*/listen = 0.0.0.0:9000/' /etc/php/8.2/fpm/pool.d/www.co
 COPY ./tools/wordpress.sh /etc/wordpress.sh
 RUN chmod +x /etc/wordpress.sh
 
+COPY conf/redis.php /var/www/wordpress/wp-redis.php
+
 CMD ["/etc/wordpress.sh"]
