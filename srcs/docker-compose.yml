@@ -9,7 +9,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql
     networks:
-      - inception-network
+      - network
     restart: unless-stopped
 
   wordpress:
@@ -24,7 +24,7 @@ services:
     volumes:
       - wp-files:/var/www/wordpress
     networks:
-      - inception-network
+      - network
     restart: unless-stopped
 
   nginx:
@@ -40,7 +40,7 @@ services:
     volumes:
       - wp-files:/var/www/wordpress
     networks:
-      - inception-network
+      - network
     restart: unless-stopped
 
   redis:
@@ -52,7 +52,7 @@ services:
     ports:
       - "6379"
     networks:
-      - inception-network
+      - network
     restart: unless-stopped
 
   ftp:
@@ -69,7 +69,7 @@ services:
     volumes:
       - wp-files:/var/www/wordpress
     networks:
-      - inception-network
+      - network
     restart: unless-stopped
 
   adminer:
@@ -82,7 +82,7 @@ services:
       - mariadb
     restart: unless-stopped
     networks:
-      - inception-network
+      - network
 
   static_file:
     build: ./requirements/bonus/static_file
@@ -91,20 +91,21 @@ services:
     ports:
       - "122:80"
     networks:
-      - inception-network
+      - network
     restart: unless-stopped
 
   portainer:
     build: ./requirements/bonus/portainer
     image: portainer
     container_name: inception-portainer
-    restart: always
     ports:
       - "9443:9443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - por-data:/data
     networks:
-      - inception-network
+      - network
+    restart: unless-stopped
 
 volumes:
   db-data:
@@ -113,7 +114,9 @@ volumes:
     driver: local
   rd-data:
     driver: local
+  por-data:
+    driver: local
 
 networks:
-  inception-network:
+  network:
     driver: bridge
