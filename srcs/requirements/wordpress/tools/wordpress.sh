@@ -28,4 +28,12 @@ wp user create "$WP_USER_NAME" $WP_USER_EMAIL \
     --role="editor" \
     --allow-root > /dev/null 2>&1
 
+wp config set WP_REDIS_HOST "redis" --allow-root --path=/var/www/html
+# Configure WordPress to use the Redis container as caching backend
+
+if ! wp redis status --allow-root --path=/var/www/html | grep -q "Connected"; then
+    wp redis enable --allow-root --path=/var/www/html
+    # Enable Redis caching if WordPress is not yet connected to Redis
+fi
+
 exec php-fpm8.2 --nodaemonize
