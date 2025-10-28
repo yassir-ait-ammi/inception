@@ -1,29 +1,25 @@
-FROM debian:trixie-backports
-# Use Debian Trixie backports as the base image
+# start image from the scratch
+FROM debian:12
 
+#run a command
 RUN apt-get update -y && apt-get upgrade -y && \
     apt-get install -y redis-server redis-tools && \
     rm -rf /var/lib/apt/lists/*
-# Update package lists and upgrade existing packages
-# Install Redis server and Redis tools
-# Clean up apt cache to reduce image size
 
+#run a command
 RUN mkdir -p /run/redis && chmod 755 /run/redis
-# Create the /run/redis directory for Redis runtime files
-# Set proper permissions for Redis to access it
 
+#run a command
 RUN cp /etc/redis/redis.conf /etc/redis/redis.conf.bak
-# Make a backup of the default Redis configuration file
 
+# open 6379
 EXPOSE 6379
-# Expose Redis default port 6379
-# This does not publish the port, it only documents it for users
 
+# copy into conatiner 
 COPY tools/redis.sh /redis.sh
-# Copy the custom Redis startup script into the container
 
+# run a command
 RUN chmod +x /redis.sh
-# Make the Redis startup script executable
 
+# main PID1
 CMD ["/redis.sh"]
-# Set the default command to run the Redis server using the custom script

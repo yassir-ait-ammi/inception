@@ -118,7 +118,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      o: bind
+      o: bind # so we can choose the path of the volumes
       device: /home/yaait-am/data/wordpress
   rd-data:
     driver: local
@@ -127,4 +127,4 @@ volumes:
 
 networks:
   network:
-    driver: bridge
+    driver: bridge # so can the container speek with other inside the network only by name
