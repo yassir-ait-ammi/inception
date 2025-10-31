@@ -8,11 +8,11 @@ WP_VOLUME = /home/yaait-am/data/wordpress/
 up:
 	sudo mkdir -p $(DB_VOLUME)
 	sudo mkdir -p $(WP_VOLUME)
-	sudo docker-compose -f $(COMPOSE) -p $(NAME) up --build -d
+	sudo docker compose -f $(COMPOSE) -p $(NAME) up --build -d
 
 # stop the container
 down:
-	sudo docker-compose -f $(COMPOSE) -p $(NAME) down
+	sudo docker compose -f $(COMPOSE) -p $(NAME) down
 
 # remove the volumes
 clean: down
