@@ -26,93 +26,63 @@ The **bonus** part enhances the infrastructure with additional services:
 
 inception/
 
-
 ├── Makefile
-
 
 ├── srcs/
 
-
 │ ├── docker-compose.yml
-
 
 │ ├── requirements/
 
-
 │ │ ├── mariadb/
 
-
 │ │ │ ├── Dockerfile
-
 
 │ │ │ └── tools/
 
-
 │ │ │ └── script.sh
-
 
 │ │ ├── nginx/
 
-
 │ │ │ ├── Dockerfile
-
 
 │ │ │ └── conf/
 
-
 │ │ │ └── nginx.conf
-
 
 │ │ ├── wordpress/
 
-
 │ │ │ ├── Dockerfile
-
 
 | | | ├── tools/
 
-
 | | | | ├── wordpress.sh
-
 
 │ │ ├── bonus/
 
-
 │ │ │ ├── redis/
 
-
 │ │ │ │ └── Dockerfile
-
 
 │ │ │ ├── ftp/
 
-
 │ │ │ │ └── Dockerfile
-
 
 │ │ │ ├── adminer/
 
-
 │ │ │ │ └── Dockerfile
-
 
 │ │ │ └── portainer/
 
-
 │ │ │ └── Dockerfile
-
 
 │ └── .env
 
-
 └── data/
-
 
 ├── mariadb/
 
-
 └── wordpress/
-
 
 this is a diagrame of what is the hall thing that inception is want at the end :
 
